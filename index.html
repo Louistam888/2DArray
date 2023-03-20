@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+  </head>
+  <style>
+    body {
+      font-size: 10px;
+    }
+  </style>
+  <body>
+    <h1>Results in Console</h1>
+
+    <script>
+
+      const cols = 64;
+      const rows = 64;
+      const numbers = [];
+      const parts = 16;
+      const grid = cols/parts;
+
+
+      //LOOP TO CREATE THE 2D ARRAY WITH NUMBERS IN IT 
+          
+      for (let i=0; i<rows; i++) {
+        numbers[i] = [];
+        
+        for (let j=0; j<cols; j++) {
+          const num = numbers[i][j] = j + 1 + (i*cols);
+          document.write(num.toString().padStart(4, '0') + "&nbsp;&nbsp;&nbsp;");
+        };
+        document.write("<br/>");
+      };
+
+  
+      //define starting coordinates of each 4x4 grid with nested loop. Each loop iteration skips four squares to left/down
+
+      //create function to test if averages are over 200 
+        // in this function, nested loop to grab all values within each grid. Use starting coordinates to define loop start the iterations, and iterate by four squares left/down for each iteration. Push each square's value into new array.
+
+        //add sum of all numbers from new array
+        //assign variable to divide by total number of squares in each grid for average and return
+        //control flow conditional to log if over 200 or under 200 
+
+      //run final loop for the start coords array that runs the test function with each start coord pair as parameters
+
+
+    //CREATE GRID STARTING COORDS OF EACH 16x16 GRID
+      const arrayOfStartCoords = [];
+      
+      for (i=0; i<rows; i+=grid) {
+
+        for (j=0; j<cols; j+=grid) {
+          const start = [i, j];
+          arrayOfStartCoords.push(start);
+        };
+      };
+
+      //FUNCTION TO TEST IF AVERAGE IS GREATE OR LOWER THAN 200 
+
+      const test = (coordArray) => {
+        const gridNums = [];
+    
+        const rowStart = coordArray[0];
+        const colStart = coordArray[1];
+    
+        //PUSH ALL GRID VALUES INTO ARRAY FOR THIS GRID
+        const getRowSum = (array) => {
+          for (i = rowStart; i<rowStart + grid; i++) {
+    
+            for (j=colStart; j<colStart + grid; j++) {
+              const num = array[i][j];
+              gridNums.push(num);
+            };
+          };
+        };
+        
+        getRowSum(numbers);
+
+        // GET AVERAGE OF VALUES IN GRID 
+        const getAverage = (array) => {
+      
+          let sum = 0;
+            array.forEach((num)=> {
+            sum += num;
+          });
+  
+          const gridSize = grid * grid;
+          
+          const average = sum / gridSize;
+        
+          return average;
+        };
+
+        const result = (getAverage(gridNums));
+       
+
+        if (result >= 200) {
+          console.log(`For grid starting at ${rowStart} ${colStart} result is: ${result}. Flag for cancer risk.`)
+        } else {
+          console.log(`For grid starting at ${rowStart} ${colStart} result is: ${result}. Risk is below threshold for concern.`)
+        }; 
+      };
+
+
+  // RUN TEST FOR EACH SET OF STARTING COORDINATES 
+
+  arrayOfStartCoords.forEach((set)=> {
+    test(set)
+  });
+
+  </script>
+</body>
+</html>
